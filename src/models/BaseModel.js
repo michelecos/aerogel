@@ -1,20 +1,20 @@
 export default class BaseModel {
     constructor() {
-    	this.nome = this.constructor.name.toLowerCase();
+    	this.name = this.constructor.name.toLowerCase();
     }
 
-    // Salva nel localStorage la variabile privata con lo stesso nome dell'oggetto
-    // Ad esempio, nel caso di account, salva this.account
+    // Saves in localStorage a variable with the state of the object.
+    // The variable name will be the same of the class name forced to lowercase.
     save(data) {
-        // this[this.nome] è uguale a this.Account, se la classe si chiama Account
+        // this[this.nome] is more convenient syntax for this.<class_name>
         if (typeof(data) !== 'undefined') {
-            this[this.nome] = data;
+            this[this.name] = data;
         }
         localStorage.setItem(this.nome, JSON.stringify(this[this.nome]));
     }
 
-    // Restituisce lo stato dell'oggetto prelevato dal localStorage.
+    // Recreate object state from localStorage.
     load() {
-    	return(JSON.parse(localStorage.getItem(this.nome)));
+    	return(JSON.parse(localStorage.getItem(this.name)));
     }
 }
