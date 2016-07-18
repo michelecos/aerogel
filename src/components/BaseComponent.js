@@ -13,10 +13,6 @@ export default class BaseComponent {
 		this.data = data;
 		this.data.templateName = this.templateName;
 		const that = this;
-		const p = new Params();
-		this.data.stringhe = p.stringhe;
-		this.data.constants = p.constants;
-		this.data.user = globalVar.user;
 		if (this.data !== null) {
 			this.data.inspect = function() {
 				return function() {
@@ -31,12 +27,18 @@ export default class BaseComponent {
 			this.template + 
 			'<!-- ' + this.templateName + ' -->';
 		var rendered = Hogan.compile(tmpl).render($.extend({}, this.data));
-		if (this.insertion === 'before') {
-			$(this.destination).before(rendered);
-		} else if(this.insertion === 'after') {
-			$(this.destination).after(rendered);
-		} else {
-			$(this.destination).html(rendered);
+		let node = document.getElementById(this.destination);
+		if (this.insertion === 'inside') {
+			node.innerHtml = rendered;
+		} else {
+			let div = document.createElement('div');
+    		div.innerHTML = rendered;
+
+			if (this.insertion === 'before') {
+    			node.parent.insertBefore(div, node);
+			} else if(this.insertion === 'after') {
+    			node.parent.insertBefore(div, node.nextSibling);
+    		}
 		}
 	}
 
