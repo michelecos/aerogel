@@ -61,7 +61,7 @@ export default class LightFrame extends BaseComponent {
     }
 
     setListeners(ctx, next) {
-        $('#backButton').click(function(event) {
+        document.getElementById("backButton").addEventListener("click", function(event) {
             event.preventDefault();
             history.go(-1);
         });
